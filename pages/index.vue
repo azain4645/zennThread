@@ -21,10 +21,13 @@
   })
 
   const getZennArticles = async () => {
-    const { data: response } = await useFetch(`https://zenn-api.netlify.app/.netlify/functions/trendTech`)
-    console.log(response.value)
+    // const { data: response } = await useFetch('https://zenn-api.netlify.app/.netlify/functions/trendTech')
+    // console.log(response.value)
     
-    state.value.articles = response
+    // state.articles = response
+
+    const response = await useFetch('/api/hello')
+    console.log(response)
   }
 
   onMounted(() => {
