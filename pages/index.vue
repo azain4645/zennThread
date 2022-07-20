@@ -1,10 +1,5 @@
 <script setup lang="ts">
-
-  type Article = {
-    title: string
-    linkedCount: number
-    publichedAt: string
-  }
+  import { Article } from "types/article"
 
   type State = {
     articles: Article[]
@@ -21,13 +16,8 @@
   })
 
   const getZennArticles = async () => {
-    // const { data: response } = await useFetch('https://zenn-api.netlify.app/.netlify/functions/trendTech')
-    // console.log(response.value)
-    
-    // state.articles = response
-
-    const response = await useFetch('/api/hello')
-    console.log(response)
+    const response = await $fetch('/api/hello')
+    state.value.articles = response
   }
 
   onMounted(() => {
@@ -36,12 +26,33 @@
 </script>
 
 <template>
-  test
-  <!-- <v-data-table 
-    :headers="headers"
-    :items="state.value.articles"
-    :items-per-page="5"  
-    class="elevation-1"
-  >
-  </v-data-table> -->
+  <p v-if="state.articles.length === 0">
+      'loading...'
+  </p>
+
+  <v-table v-else>
+    <thead>
+      <tr>
+        <th class="text-left">
+          タイトル
+        </th>
+        <th class="text-left">
+          いいね数
+        </th>
+        <th class="text-left">
+          掲載日
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        v-for="item in state.articles"
+        :key="item.title"
+      >
+        <td>{{ item.title }}</td>
+        <td>{{ item.likedCount }}</td>
+        <td>{{ item.publishedAt }}</td>
+      </tr>
+    </tbody>
+  </v-table>
 </template>
